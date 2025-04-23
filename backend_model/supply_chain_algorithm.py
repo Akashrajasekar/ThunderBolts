@@ -3,10 +3,15 @@ import numpy as np
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
 import math
+import os
 
 # Load the data (assuming the data was generated using the previous script)
 def load_data(file_path="cargo_sharing_dataset.csv"):
     """Load shipment data from CSV file"""
+    # Ensure file path exists
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Dataset file not found at: {file_path}")
+        
     df = pd.read_csv(file_path)
     
     # Convert timestamp and scheduled_delivery_time to datetime if they are strings
