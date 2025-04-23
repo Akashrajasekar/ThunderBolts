@@ -7,8 +7,8 @@ import seaborn as sns
 import plotly.express as px
 from geopy.distance import geodesic
 
-# Import the algorithm functions - update the import path based on your file structure
-from supply_chain_algorithm import (
+# Import the algorithm functions - updated import path
+from backend_model.supply_chain_algorithm import (
     load_data, recommend_best_matches, are_goods_compatible, 
     is_temp_compatible, calculate_distance, calculate_carbon_impact
 )
@@ -121,11 +121,11 @@ st.markdown('<p class="info-text">This system helps find the best trucks with av
 
 # Check if the dataset exists or generate it
 try:
-    df_shipments = load_data("cargo_sharing_dataset.csv")
+    df_shipments = load_data("dataset/cargo_sharing_dataset.csv")
     st.success(f"Loaded dataset with {len(df_shipments)} shipment records")
 except Exception as e:
     st.error(f"Dataset error: {e}")
-    st.info("Please ensure 'cargo_sharing_dataset.csv' is in the current directory.")
+    st.info("Please ensure 'dataset/cargo_sharing_dataset.csv' is in the correct directory.")
 
 # Import GOODS_TYPES from file or define here
 GOODS_TYPES = {
