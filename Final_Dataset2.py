@@ -36,45 +36,46 @@ GOODS_TYPES = {
     "Appliances": {"temp_range": (10, 35), "compatibility": ["Electronics"]}
 }
 
+# Replace real cities with fictional ones
 CITIES = [
-    "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", 
-    "San Antonio", "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", 
-    "Fort Worth", "Columbus", "Indianapolis", "Charlotte", "San Francisco",
-    "Seattle", "Denver", "Washington", "Boston", "Nashville", "Baltimore", 
-    "Portland", "Las Vegas", "Milwaukee", "Albuquerque", "Tucson", "Fresno"
+    "Azureville", "Meadowbrook", "Ironridge", "Sunhaven", "Crystalpoint", "Pinecrest", 
+    "Riverdale", "Cobalt Bay", "Oakvale", "Silvertown", "Greenfield", "Stormhold", 
+    "Westport", "Northridge", "Lakeview", "Elmshadow", "Goldengate",
+    "Maplewood", "Mountainpeak", "Bayside", "Frostholm", "Harmony Hills", "Seaside", 
+    "Cedarville", "Starlight", "Willowbrook", "Sandstone", "Mistyridge", "Emberfall"
 ]
 
-# Generate realistic coordinates for cities
+# Generate coordinates for fictional cities (similar latitude/longitude ranges as original)
 CITY_COORDINATES = {
-    "New York": (40.7128, -74.0060),
-    "Los Angeles": (34.0522, -118.2437),
-    "Chicago": (41.8781, -87.6298),
-    "Houston": (29.7604, -95.3698),
-    "Phoenix": (33.4484, -112.0740),
-    "Philadelphia": (39.9526, -75.1652),
-    "San Antonio": (29.4241, -98.4936),
-    "San Diego": (32.7157, -117.1611),
-    "Dallas": (32.7767, -96.7970),
-    "San Jose": (37.3382, -121.8863),
-    "Austin": (30.2672, -97.7431),
-    "Jacksonville": (30.3322, -81.6557),
-    "Fort Worth": (32.7555, -97.3308),
-    "Columbus": (39.9612, -82.9988),
-    "Indianapolis": (39.7684, -86.1581),
-    "Charlotte": (35.2271, -80.8431),
-    "San Francisco": (37.7749, -122.4194),
-    "Seattle": (47.6062, -122.3321),
-    "Denver": (39.7392, -104.9903),
-    "Washington": (38.9072, -77.0369),
-    "Boston": (42.3601, -71.0589),
-    "Nashville": (36.1627, -86.7816),
-    "Baltimore": (39.2904, -76.6122),
-    "Portland": (45.5051, -122.6750),
-    "Las Vegas": (36.1699, -115.1398),
-    "Milwaukee": (43.0389, -87.9065),
-    "Albuquerque": (35.0844, -106.6504),
-    "Tucson": (32.2226, -110.9747),
-    "Fresno": (36.7378, -119.7871)
+    "Azureville": (40.8123, -74.1060),
+    "Meadowbrook": (34.1522, -118.3437),
+    "Ironridge": (41.9781, -87.7298),
+    "Sunhaven": (29.8604, -95.4698),
+    "Crystalpoint": (33.5484, -112.1740),
+    "Pinecrest": (39.8526, -75.2652),
+    "Riverdale": (29.5241, -98.5936),
+    "Cobalt Bay": (32.8157, -117.2611),
+    "Oakvale": (32.6767, -96.8970),
+    "Silvertown": (37.4382, -121.9863),
+    "Greenfield": (30.3672, -97.8431),
+    "Stormhold": (30.4322, -81.7557),
+    "Westport": (32.8555, -97.4308),
+    "Northridge": (39.8612, -83.0988),
+    "Lakeview": (39.6684, -86.2581),
+    "Elmshadow": (35.3271, -80.9431),
+    "Goldengate": (37.8749, -122.5194),
+    "Maplewood": (47.7062, -122.4321),
+    "Mountainpeak": (39.8392, -105.0903),
+    "Bayside": (38.8072, -77.1369),
+    "Frostholm": (42.4601, -71.1589),
+    "Harmony Hills": (36.2627, -86.8816),
+    "Seaside": (39.3904, -76.7122),
+    "Cedarville": (45.6051, -122.7750),
+    "Starlight": (36.2699, -115.2398),
+    "Willowbrook": (43.1389, -88.0065),
+    "Sandstone": (35.1844, -106.7504),
+    "Mistyridge": (32.3226, -110.8747),
+    "Emberfall": (36.8378, -119.8871)
 }
 
 # Truck types and their capacities
