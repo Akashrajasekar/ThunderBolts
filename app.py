@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 from geopy.distance import geodesic
+import os
+import sys
+
+# Add parent directory to path to ensure imports work
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the algorithm functions - updated import path
 from backend_model.supply_chain_algorithm import (
@@ -119,13 +124,59 @@ st.markdown("""
 st.markdown('<h1 class="main-header">Supply Chain Space Sharing Recommender</h1>', unsafe_allow_html=True)
 st.markdown('<p class="info-text">This system helps find the best trucks with available space that match your shipment requirements.</p>', unsafe_allow_html=True)
 
+# Find the dataset file - check multiple possible locations
+def find_dataset_file():
+    """Search for the dataset file in multiple possible locations"""
+    # Possible locations to check
+    possible_paths = [
+        os.path.join("dataset", "cargo_sharing_dataset.csv"),  # Relative to current directory
+        os.path.join(os.path.dirname(__file__), "dataset", "cargo_sharing_dataset.csv"),  # Relative to script location
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), "dataset", "cargo_sharing_dataset.csv"),  # Up one level
+        os.path.join(".", "dataset", "cargo_sharing_dataset.csv"),  # Explicit current directory
+        "cargo_sharing_dataset.csv",  # Directly in the current folder
+        os.path.join("..", "dataset", "cargo_sharing_dataset.csv"),  # Parent directory
+        os.path.join("data", "cargo_sharing_dataset.csv"),  # Another common folder name
+    ]
+    
+    # Check if debug mode is enabled
+    debug_mode = 'debug' in sys.argv
+    
+    if debug_mode:
+        st.write(f"Current working directory: {os.getcwd()}")
+    
+    # Try each path
+    for path in possible_paths:
+        if os.path.exists(path):
+            if debug_mode:
+                st.success(f"Found dataset at: {path}")
+            return path
+    
+    # If we get here, file wasn't found
+    st.error("Dataset file not found in any expected location.")
+    
+    # Only show detailed paths in debug mode
+    if debug_mode:
+        st.write("Checked the following locations:")
+        for path in possible_paths:
+            st.write(f"- {path} ({'exists' if os.path.exists(path) else 'not found'})")
+    
+    return None
+
 # Check if the dataset exists or generate it
 try:
-    df_shipments = load_data("dataset/cargo_sharing_dataset.csv")
-    st.success(f"Loaded dataset with {len(df_shipments)} shipment records")
+    # Find the dataset file
+    dataset_path = find_dataset_file()
+    
+    if dataset_path:
+        df_shipments = load_data(dataset_path)
+        st.success(f"Loaded dataset with {len(df_shipments)} shipment records")
+    else:
+        st.error("Dataset file not found. Please ensure it exists in the expected locations.")
+        st.stop()
 except Exception as e:
     st.error(f"Dataset error: {e}")
-    st.info("Please ensure 'dataset/cargo_sharing_dataset.csv' is in the correct directory.")
+    st.info("Please ensure the dataset file exists and is accessible.")
+    st.stop()
 
 # Import GOODS_TYPES from file or define here
 GOODS_TYPES = {
