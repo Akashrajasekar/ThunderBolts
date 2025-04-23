@@ -21,104 +21,32 @@ from backend_model.supply_chain_algorithm import (
 # Set page configuration
 st.set_page_config(page_title="Supply Chain Space Sharing Recommender", layout="wide")
 
-# Custom CSS for styling
-st.markdown("""
-<style>
-    /* Main styling */
-    .main {
-        background-color: #f5f7f9;
-    }
+# Load external CSS
+def load_css(css_file):
+    with open(css_file, "r") as f:
+        css = f.read()
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+# Try to load CSS from the main directory
+css_path = "style.css"
+if os.path.exists(css_path):
+    load_css(css_path)
+else:
+    # Fallback to other potential locations
+    potential_css_paths = [
+        os.path.join(os.path.dirname(__file__), "style.css"),
+        os.path.join(".", "style.css")
+    ]
     
-    /* Header styling */
-    .main-header {
-        font-family: 'Helvetica Neue', sans-serif;
-        color: #2c3e50;
-        text-align: center;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        border-radius: 10px;
-    }
+    css_loaded = False
+    for path in potential_css_paths:
+        if os.path.exists(path):
+            load_css(path)
+            css_loaded = True
+            break
     
-    /* Card styling */
-    .metric-card {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: transform 0.3s ease;
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    .metric-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .metric-label {
-        font-size: 0.9rem;
-        color: #7f8c8d;
-        margin-bottom: 0.2rem;
-    }
-    
-    .metric-value {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #2c3e50;
-    }
-    
-    /* Status colors */
-    .status-available {
-        color: #00cc44;
-    }
-    
-    .status-filling {
-        color: #ffcc00;
-    }
-    
-    .status-full {
-        color: #ff3300;
-    }
-    
-    /* Section headers */
-    .section-header {
-        font-weight: bold;
-        color: #2c3e50;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.3rem;
-        border-bottom: 2px solid #3498db;
-    }
-    
-    /* Info text */
-    .info-text {
-        background-color: #eaf2f8;
-        padding: 0.8rem;
-        border-radius: 0.5rem;
-        border-left: 4px solid #3498db;
-    }
-    
-    /* Button styling */
-    .stButton>button {
-        background-color: #3498db;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        padding: 0.5rem 1rem;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        background-color: #2980b9;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-</style>
-""", unsafe_allow_html=True)
+    if not css_loaded:
+        st.warning("Could not load external CSS file. Using default styling.")
 
 # Main title
 st.markdown('<h1 class="main-header">Supply Chain Space Sharing Recommender</h1>', unsafe_allow_html=True)
@@ -297,41 +225,37 @@ def create_truck_card(company, truck_type, score, storage_left, carbon_savings):
     symbol, card_color, status = get_status_info(min(utilization, 99))
     
     card = f"""
-    <div style="padding:20px; margin:10px 0; border-radius:15px; 
-         background:white; 
-         border:1px solid #e0e0e0; 
-         box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-         transition: transform 0.3s ease, box-shadow 0.3s ease;">
-        <div style="display:flex; align-items:center; margin-bottom:15px;">
-            <div style="font-size:2.5rem; margin-right:15px; color:{card_color};">🚚</div>
+    <div class="truck-card">
+        <div class="truck-card-header">
+            <div class="truck-icon" style="color:{card_color};">🚚</div>
             <div>
-                <h3 style="margin:0; color:#2c3e50; font-size:1.4rem;">{company}</h3>
-                <p style="margin:0; color:#7f8c8d;">{truck_type}</p>
+                <h3 class="truck-company">{company}</h3>
+                <p class="truck-type">{truck_type}</p>
             </div>
-            <div style="margin-left:auto; text-align:right;">
-                <div style="font-size:1.8rem; font-weight:bold; color:#3498db;">{score:.1f}</div>
-                <div style="color:#7f8c8d; font-size:0.8rem;">Match Score</div>
-            </div>
-        </div>
-        <div style="background:#f8f9fa; border-radius:10px; padding:15px; margin-bottom:15px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                <span style="color:#7f8c8d;"><b>Available Space:</b></span>
-                <span style="color:#2c3e50; font-weight:500;">{storage_left:.1f} units</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                <span style="color:#7f8c8d;"><b>Your Shipment:</b></span>
-                <span style="color:#2c3e50; font-weight:500;">{units_of_goods} units ({utilization:.1f}%)</span>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-                <span style="color:#7f8c8d;"><b>Carbon Savings:</b></span>
-                <span style="color:#00cc44; font-weight:bold;">{carbon_savings}%</span>
+            <div class="truck-score-container">
+                <div class="truck-score">{score:.1f}</div>
+                <div class="truck-score-label">Match Score</div>
             </div>
         </div>
-        <div style="background:#f0f3f6; height:12px; border-radius:6px; overflow:hidden; margin-bottom:12px;">
-            <div style="background:{card_color}; width:{min(utilization, 100)}%; height:100%;"></div>
+        <div class="truck-details">
+            <div class="truck-detail-row">
+                <span class="truck-detail-label"><b>Available Space:</b></span>
+                <span class="truck-detail-value">{storage_left:.1f} units</span>
+            </div>
+            <div class="truck-detail-row">
+                <span class="truck-detail-label"><b>Your Shipment:</b></span>
+                <span class="truck-detail-value">{units_of_goods} units ({utilization:.1f}%)</span>
+            </div>
+            <div class="truck-detail-row">
+                <span class="truck-detail-label"><b>Carbon Savings:</b></span>
+                <span class="carbon-value">{carbon_savings}%</span>
+            </div>
         </div>
-        <div style="text-align:center; font-size:0.9em; color:#7f8c8d;">
-            {symbol} <span style="color:{card_color}; font-weight:500;">{status}</span>
+        <div class="truck-progress-container">
+            <div class="truck-progress-bar" style="background:{card_color}; width:{min(utilization, 100)}%;"></div>
+        </div>
+        <div class="truck-status-container">
+            {symbol} <span class="truck-status" style="color:{card_color};">{status}</span>
         </div>
     </div>
     """
@@ -361,7 +285,7 @@ if st.sidebar.button("Find Best Matches"):
             # Check if any recommendation exceeds threshold
             any_exceeds_threshold = any(rec.get("exceeds_threshold", False) for rec in recommendations)
             if any_exceeds_threshold:
-                st.markdown('<div class="info-text" style="border-left-color: #ff9800;">⚠️ Some recommendations exceed your distance threshold but are shown as they\'re the closest available matches.</div>', unsafe_allow_html=True)
+                st.markdown('<div class="info-text info-warning">⚠️ Some recommendations exceed your distance threshold but are shown as they\'re the closest available matches.</div>', unsafe_allow_html=True)
             
             # Create columns for layout
             col1, col2 = st.columns([3, 2])
@@ -510,14 +434,14 @@ if st.sidebar.button("Find Best Matches"):
                         
                         # Create styled metrics
                         st.markdown("""
-                        <div style="display:flex; gap:20px; margin-top:20px;">
-                            <div class="metric-card" style="flex:1">
-                                <div class="metric-icon" style="color:#00cc44;">🌿</div>
+                        <div class="metrics-container">
+                            <div class="metric-card">
+                                <div class="metric-icon green-icon">🌿</div>
                                 <div class="metric-label">POTENTIAL CARBON REDUCTION</div>
                                 <div class="metric-value">{:.2f} kg CO₂</div>
                             </div>
-                            <div class="metric-card" style="flex:1">
-                                <div class="metric-icon" style="color:#00cc44;">🔄</div>
+                            <div class="metric-card">
+                                <div class="metric-icon green-icon">🔄</div>
                                 <div class="metric-label">AVERAGE REDUCTION PER TRIP</div>
                                 <div class="metric-value">30%</div>
                             </div>
@@ -598,7 +522,7 @@ if st.sidebar.button("Find Best Matches"):
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.markdown('<div class="info-text" style="border-left-color: #ff9800;">⚠️ No matching trucks found. Try adjusting your constraints.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="info-text info-warning">⚠️ No matching trucks found. Try adjusting your constraints.</div>', unsafe_allow_html=True)
 
 # Create tabs for additional data views
 tab1, tab2 = st.tabs(["Dataset Overview", "About the System"])

@@ -39,6 +39,7 @@ This will show additional information about where the app is looking for the dat
 - `backend_model/supply_chain_algorithm.py` - Core algorithms and functions
 - `dataset/cargo_sharing_dataset.csv` - Main dataset location
 - `setup_deployment.py` - Helper script for deployment preparation
+- `style.css` - Application styling (keep in the main directory)
 
 ## Features
 
@@ -49,9 +50,13 @@ This will show additional information about where the app is looking for the dat
 
 ## Deployment Troubleshooting
 
-If the deployed version cannot find the dataset:
+If the deployed version cannot find the dataset or CSS:
 
 1. Run `python setup_deployment.py` locally before deploying
-2. Ensure the deployment service includes the dataset file in the deployed package
+2. Ensure the deployment service includes all required files in the deployed package
 3. Check if the deployment service has specific requirements for file paths
-4. Try adding the dataset file to multiple locations within the project structure 
+4. Try adding the dataset file to multiple locations within the project structure
+
+## Styling Customization
+
+To customize the appearance of the application, edit the `style.css` file in the main directory. The application will automatically load these styles at startup. 

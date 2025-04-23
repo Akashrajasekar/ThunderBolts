@@ -35,6 +35,7 @@ def setup_deployment():
     
     # Define file paths
     source_dataset = os.path.join(script_dir, "dataset", "cargo_sharing_dataset.csv")
+    css_file = os.path.join(script_dir, "style.css")
     
     # List of target locations to ensure the dataset file exists
     target_locations = [
@@ -47,6 +48,20 @@ def setup_deployment():
     for location in target_locations:
         ensure_directory(location)
         copy_file(source_dataset, os.path.join(location, "cargo_sharing_dataset.csv"))
+    
+    # Ensure CSS file is available
+    if os.path.exists(css_file):
+        print(f"CSS file found at: {css_file}")
+    else:
+        print("WARNING: CSS file not found. Creating an empty one.")
+        with open(css_file, "w") as f:
+            f.write("/* CSS Styles for Supply Chain Space Sharing Recommender */\n")
+    
+    # Also copy CSS file to any alternate locations
+    for location in target_locations:
+        if location != script_dir:  # Skip if it's the main directory where the CSS already exists
+            css_dest = os.path.join(location, "style.css")
+            copy_file(css_file, css_dest)
     
     print("\nDeployment setup complete!")
     print("\nTo run the application in debug mode, use:")
