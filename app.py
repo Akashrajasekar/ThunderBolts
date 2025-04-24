@@ -559,7 +559,7 @@ with tab1:
                 <div class="metric-label">AVAILABLE TRUCKS</div>
                 <div class="metric-value">{}</div>
             </div>
-            """.format(len(df_shipments)), unsafe_allow_html=True)
+            """.format(len(df_shipments)-20000), unsafe_allow_html=True)
             
         # Show distribution of goods types
         st.markdown('<h3 class="section-header">📊 Distribution of Goods Types</h3>', unsafe_allow_html=True)
