@@ -388,7 +388,7 @@ if st.sidebar.button("Find Best Matches"):
                         x=scores,
                         y=labels,
                         orientation='h',
-                        title="Top 5 Recommendations by Score",
+                        title="Delivery Vehicle Analytics",
                         labels={"x": "Match Score (out of 100)", "y": ""},
                         color=scores,
                         color_continuous_scale="Blues",
