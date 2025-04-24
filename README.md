@@ -23,19 +23,19 @@ The scoring system assigns points across these dimensions, with the final score 
 2. Ensure dataset file is in the correct location: `dataset/cargo_sharing_dataset.csv`
 3. Run the application:
 
-streamlit run app.py
+`streamlit run app.py`
 
 ### Deployment Preparation
 Before deploying to a cloud service, run the setup script to ensure all files are in their correct locations:
 
-python setup_deployment.py
+`python setup_deployment.py`
 
 This will copy the dataset file to multiple locations that the app checks during startup, ensuring it can be found regardless of the working directory in the deployment environment.
 
 ### Debugging
 If you're experiencing issues with the app finding the dataset, you can run in debug mode:
 
-streamlit run app.py debug
+`streamlit run app.py debug`
 
 This will show additional information about where the app is looking for the dataset file.
 
